@@ -1,7 +1,10 @@
-.list-array__ul {
+.listArray__ul {
   list-style-type: none;
   padding: 0;
 }
-.list-array__li{
 
+.listArray__li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

@@ -1,15 +1,17 @@
 import styles from './listArray.module.scss'
+import React from "react";
 
 type Props<T> = {
     data: Array<T>
-    mapFunction?: (data : T) => any;
-};
+    mapFunction?: (data: T) => any;
+    additionalListItemClassName?: string
+} & React.ComponentPropsWithoutRef<"ul">;
 
-function ListArray<T>({data, mapFunction, ...rest} : Props<T>) {
+function ListArray<T>({data, mapFunction, additionalListItemClassName, className, ...rest}: Props<T>) {
     return (
-        <ul  className={styles['list-array__ul']} {...rest}>
-            {data.map((item,index) =>
-                <li key={index} className={styles.listArray__li}>{
+        <ul className={styles.listArray__ul + " " + className} {...rest}>
+            {data.map((item, index) =>
+                <li key={index} className={styles.listArray__li + " " + additionalListItemClassName}>{
                     mapFunction ? mapFunction(item) : item
                 }</li>
             )}

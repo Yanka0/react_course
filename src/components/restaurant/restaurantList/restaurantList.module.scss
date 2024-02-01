@@ -1,4 +1,17 @@
-.restaurant_list{
+.restaurant_list {
   display: flex;
   justify-content: space-around;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: space-around;
+
+  .restBtn {
+    border-radius: 5px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    padding: 10px 10px;
+  }
 }
