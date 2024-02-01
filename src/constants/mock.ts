@@ -1,20 +1,20 @@
-type Menu = {
+export type Menu = {
     id: string,
     name: string,
     price: number,
     ingredients: string[]
 }
-type Reviews = {
+export type Review = {
     id: string,
     user: string,
     text: string,
     rating: number,
 }
-type Restaurant = {
+export type Restaurant = {
    id: string,
    name: string,
    menu: Menu[],
-   reviews: Reviews[]
+   reviews: Review[]
 }
 
 
