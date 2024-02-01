@@ -1,8 +1,7 @@
 import { FunctionComponent } from 'react';
 import styles from './header.module.scss'
-interface OwnProps {}
 
-type Props = OwnProps;
+type Props = {};
 
 const Header: FunctionComponent<Props> = () => {
 

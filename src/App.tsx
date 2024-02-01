@@ -1,17 +1,20 @@
-import  { FunctionComponent } from 'react';
+import {FunctionComponent} from 'react';
 import Layout from "./components/layout/Layout.tsx";
-import RestaurantList from "./components/restaurant/restaurantList/RestaurantList.tsx";
 import './App.scss'
+import RestaurantPage from "./components/restaurant/page/RestaurantPage.tsx";
 
-interface OwnProps {}
+interface OwnProps {
+}
 
 type Props = OwnProps;
 
 const App: FunctionComponent<Props> = () => {
 
-  return (<Layout>
-    <RestaurantList/>
-  </Layout>);
+  return (
+    <Layout>
+      <RestaurantPage/>
+    </Layout>
+  );
 };
 
 export default App;
