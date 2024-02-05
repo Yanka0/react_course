@@ -4,7 +4,7 @@ import {FunctionComponent, ReactNode} from 'react';
 type Props = {
     children: ReactNode,
     className?: string,
-    onClick: () => void,
+    onClick?: () => void,
     isDisabled?: boolean
 };
 
