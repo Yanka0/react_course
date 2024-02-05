@@ -1,0 +1,45 @@
+.loginModal{
+  background-color: rgb(121, 118, 118);
+  padding: 20px;
+  border-radius:10px;
+  p{
+    font-size: 30px;
+    color: white;
+    text-align: center;
+  }
+  label{
+     color: white;
+   }
+  .inputItem{
+    padding: 9px;
+    margin: 4px;
+  }
+}
+.container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000aa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.allInputs{
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginModalBtn{
+background-color: #ffffff;
+  color: black;
+  padding: 8px;
+  margin-right: 7px;
+}
+.allBtns{
+  display: flex;
+  justify-content: space-around;
+  padding: 15px;
+}

@@ -7,8 +7,8 @@ type Props = OwnProps;
 
 const Footer: FunctionComponent<Props> = () => {
 
-   return (
-        <footer className={styles.footer}>No info</footer>
+   return (<div className={styles.container}>
+        <footer className={styles.footer}>No info</footer></div>
   );
 };
 

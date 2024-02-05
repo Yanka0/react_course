@@ -2,16 +2,16 @@ import React, {FunctionComponent} from 'react';
 import styles from './input.module.scss'
 
 type Props = {
-  htmlFor:string
+  htmlFor: string
   id: string
-  type:string
+  type: string
   value: string;
-  onChange:React.ChangeEventHandler<HTMLInputElement>
-  label:string
-  className:string
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+  label: string
+  className: string
 };
 
-const Input: FunctionComponent<Props> = ({htmlFor, id, type,value, onChange,label,className}) => {
+const Input: FunctionComponent<Props> = ({htmlFor, id, type, value, onChange, label, className}) => {
 
   return (
     <div className={styles.container}>
@@ -20,7 +20,7 @@ const Input: FunctionComponent<Props> = ({htmlFor, id, type,value, onChange,labe
              type={type}
              value={value}
              onChange={onChange}
-      className={className}/>
+             className={className}/>
     </div>
   );
 };
