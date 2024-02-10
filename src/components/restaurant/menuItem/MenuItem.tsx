@@ -1,14 +1,15 @@
 import {FunctionComponent, useState} from 'react';
-import {Menu} from "../../../constants/mock.ts";
 import styles from "./menuItem.module.scss";
 import Button from "../../../utils/button/Button.tsx";
+import {useSelector} from "react-redux";
+import {selectDishMenuWithIds} from "../../../store/entities/dish/selector.tsx";
 
 
 type Props = {
-  menu: Menu[];
+  menuIds : string[]
 };
 
-const MenuItem: FunctionComponent<Props> = ({menu}) => {
+const MenuItem: FunctionComponent<Props> = ({menuIds}) => {
   const [counter, setCounter] = useState<{ [key: string]: number }>({});
 
   function valuePlus(menuItemId: string) {
@@ -33,17 +34,18 @@ const MenuItem: FunctionComponent<Props> = ({menu}) => {
     return counter[menuItemId] === 5;
   }
 
+  const dishMenuWithIds = useSelector(selectDishMenuWithIds);
   return (<div>
-    {menu.map((item: Menu) => (
-      <div key={item.id}>
+    {menuIds.map((id) => (
+      <div key={id}>
         <div className={styles.menuBtns}>
-          <li className={styles.menuList}>{item.name}</li>
+          <li className={styles.menuList}>{dishMenuWithIds[id].name}</li>
           <div>
-            <Button children={'+'} onClick={() => valuePlus(item.id)} className={styles.menuBtn}
-                    isDisabled={isPlusDisabled(item.id)}/>
-            {counter[item.id] || 0}
-            <Button children={'-'} onClick={() => valueMinus(item.id)} className={styles.menuBtn}
-                    isDisabled={isMinusDisabled(item.id)}/>
+            <Button children={'+'} onClick={() => valuePlus(id)} className={styles.menuBtn}
+                    isDisabled={isPlusDisabled(id)}/>
+            {counter[id] || 0}
+            <Button children={'-'} onClick={() => valueMinus(id)} className={styles.menuBtn}
+                    isDisabled={isMinusDisabled(id)}/>
           </div>
         </div>
       </div>))}

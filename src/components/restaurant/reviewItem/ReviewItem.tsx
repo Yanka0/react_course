@@ -1,17 +1,19 @@
 import  {FunctionComponent} from 'react';
-import {Review} from "../../../constants/mock.ts";
 import styles from './reviewItem.module.scss'
+import {useSelector} from "react-redux";
+import {selectReviewsWithIds} from "../../../store/entities/review/selector.tsx";
 type Props = {
-    reviews: Review[];
+    reviewIds:string[];
 };
 
-const ReviewItem: FunctionComponent<Props> = ({reviews}) => {
+const ReviewItem: FunctionComponent<Props> = ({reviewIds}) => {
+  const reviewWithIds = useSelector(selectReviewsWithIds);
 
   return (
       <div>
         <ul className={styles.reviewList}>
-          {reviews.map((item: Review) => (
-              <li key={item.id} className={styles.reviewItem}>{item.text}</li>
+          {reviewIds.map((id) => (
+              <li key={id} className={styles.reviewItem}>{reviewWithIds[id].text}</li>
           ))}
         </ul>
       </div>);

@@ -3,6 +3,8 @@ import Layout from "./components/layout/Layout.tsx";
 import './App.scss'
 import RestaurantPage from "./components/restaurant/page/RestaurantPage.tsx";
 import AuthProvider from "./contexts/Auth.tsx";
+import {Provider} from "react-redux";
+import {store} from "./store";
 
 interface OwnProps {
 }
@@ -12,11 +14,13 @@ type Props = OwnProps;
 const App: FunctionComponent<Props> = () => {
 
   return (
-    <AuthProvider>
-    <Layout>
-      <RestaurantPage/>
-    </Layout>
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <Layout>
+          <RestaurantPage/>
+        </Layout>
+      </AuthProvider>
+    </Provider>
   );
 };
 

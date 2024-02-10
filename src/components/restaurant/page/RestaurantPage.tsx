@@ -1,22 +1,20 @@
 import {FunctionComponent, useState} from 'react';
-import {Restaurant, restaurants} from "../../../constants/mock.ts";
 import RestaurantTabs from "../restaurantsTabs/RestaurantTabs.tsx";
 import SelectedRestaurant from "../selectedRestaurant/SelectedRestaurant.tsx";
-
 
 type Props = {}
 
 const RestaurantPage: FunctionComponent<Props> = () => {
-  const [restaurantToRender, setRestaurantToRender] = useState<Restaurant | null>(null)
+  const [restaurantIdToRender, setRestaurantIdToRender] = useState<string | null>(null)
 
-  const handleRestaurantClick = (selectedRestaurant: Restaurant) => {
-    setRestaurantToRender(selectedRestaurant);
+  const handleRestaurantClick = (restaurantIdToRender: string) => {
+    setRestaurantIdToRender(restaurantIdToRender);
   };
 
   return (
     <div>
-      <RestaurantTabs restaurants={restaurants} onClick={handleRestaurantClick}/>
-      <SelectedRestaurant selectedRestaurant={restaurantToRender}/>
+      <RestaurantTabs onClick={handleRestaurantClick}/>
+      <SelectedRestaurant restaurantIdToRender={restaurantIdToRender}/>
     </div>
   );
 };
