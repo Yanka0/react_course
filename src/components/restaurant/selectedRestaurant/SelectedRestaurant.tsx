@@ -1,23 +1,21 @@
 import {FunctionComponent} from 'react';
-import {Restaurant} from "../../../constants/mock.ts";
 import RestaurantItem from "../restaurantItem/RestaurantItem.tsx";
 import styles from './selectedRestaurant.module.scss'
 
 type Props = {
-  selectedRestaurant : Restaurant | null
+  restaurantIdToRender: string | null
 };
 
-const SelectedRestaurant: FunctionComponent<Props> = ({selectedRestaurant}) => {
+const SelectedRestaurant: FunctionComponent<Props> = ({restaurantIdToRender}) => {
 
   return (<div>
     <div className={styles.restaurant_list}>{
-      !selectedRestaurant ? (
-        <p>Choose restaurant</p>) : (
-        <RestaurantItem
-          key={selectedRestaurant.id}
-          restaurant={selectedRestaurant}
-        />
-      )}
+      restaurantIdToRender ? (
+          <RestaurantItem restaurantId={restaurantIdToRender}/>
+        )
+        : (
+          <p>Choose restaurant</p>
+        )}
     </div>
 
   </div>);

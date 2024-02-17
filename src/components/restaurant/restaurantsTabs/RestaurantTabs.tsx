@@ -1,24 +1,28 @@
 import {FunctionComponent} from 'react';
 import styles from "./restaurantTabs.module.scss";
-import {Restaurant} from "../../../constants/mock.ts";
 import Button from "../../../utils/button/Button.tsx";
-
+import {useSelector} from "react-redux";
+import {
+  selectRestaurantIds,
+  selectRestaurantsWithIds
+} from "../../../store/entities/restaurant/selector.tsx";
 
 type Props = {
-    restaurants: Restaurant[];
-    onClick: (selectedRestaurant: Restaurant) => void;
+  onClick: (restaurantIdToRender: string) => void;
 };
 
-const RestaurantTabs: FunctionComponent<Props> = ({restaurants, onClick}) => {
+const RestaurantTabs: FunctionComponent<Props> = ({onClick}) => {
+  const restaurantIds = useSelector(selectRestaurantIds);
+  const restaurantsWithIds = useSelector(selectRestaurantsWithIds);
 
   return (
-      <div className={styles.btnContainer}>
-      {restaurants.map((item) => (
-          <Button key={item.id} onClick={() => onClick(item)} className={styles.restBtn}>
-              {item.name}
-          </Button>
+    <div className={styles.btnContainer}>
+      {restaurantIds.map((restaurantId) => (
+        <Button key={restaurantId} onClick={() => onClick(restaurantId)} className={styles.restBtn}>
+          {restaurantsWithIds[restaurantId].name}
+        </Button>
       ))}
-  </div>);
+    </div>);
 };
 
 export default RestaurantTabs;

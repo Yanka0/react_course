@@ -4,6 +4,7 @@ import useLogInForm from "./useLogInForm.tsx";
 import styles from './loginModal.module.scss'
 import Button from "../../../utils/button/Button.tsx";
 import {useAuth} from "../../../contexts/Auth.tsx";
+import {createPortal} from "react-dom";
 
 
 type Props = {
@@ -11,16 +12,17 @@ type Props = {
 };
 
 const LoginModal: FunctionComponent<Props> = ({setShowModal}) => {
+  const modal = document.getElementById('overlays')!
   const {form, setName, setEmail} = useLogInForm()
   const {login} = useAuth();
   const handleContinueClick = () => {
     if (form.name !== '' && form.email !== '') {
-      login({ name: form.name, email: form.email });
+      login({name: form.name, email: form.email});
       setShowModal(false);
     }
   };
 
-  return (
+  return createPortal(
     <div className={styles.container}>
       <div className={styles.loginModal}>
         <p className="title">Log In</p>
@@ -31,11 +33,12 @@ const LoginModal: FunctionComponent<Props> = ({setShowModal}) => {
                  className={styles.inputItem}/>
         </div>
         <div className={styles.allBtns}>
-        <Button className={styles.loginModalBtn} children={'Continue'} onClick={handleContinueClick}/>
-        <Button className={styles.loginModalBtn} children={'Cancel'} onClick={() => setShowModal(false)}/>
+          <Button className={styles.loginModalBtn} children={'Continue'} onClick={handleContinueClick}/>
+          <Button className={styles.loginModalBtn} children={'Cancel'} onClick={() => setShowModal(false)}/>
+        </div>
       </div>
-      </div>
-    </div>
+    </div>,
+    modal
   );
 };
 
