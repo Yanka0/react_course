@@ -1,33 +1,28 @@
 import {FunctionComponent, useEffect, useState} from 'react';
 import styles from './reviewItem.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviewsWithIds} from "../../../store/entities/review/selector.tsx";
+import {selectReviewsByRestaurantId} from "../../../store/entities/review/selector.tsx";
 import {RootState} from "../../../store";
 import {selectIsLoading} from "../../../store/ui/request";
 import {ThunkDispatch, UnknownAction} from "@reduxjs/toolkit";
-import {getReviews, Review} from "../../../store/entities/review/thunks/get-reviews.ts";
+import {getReviewsByRestaurantId, Review} from "../../../store/entities/review/thunks/get-reviews-by-restaurant-id.ts";
 
 type Props = {
-  reviewIds: string[];
+  restaurantId: string;
 };
 
-const ReviewItem: FunctionComponent<Props> = ({reviewIds}) => {
-  const reviewWithIds = useSelector(selectReviewsWithIds);
-  const isReviewWithIdsNotExist : boolean = !Object.keys(reviewWithIds).length;
+const ReviewItem: FunctionComponent<Props> = ({restaurantId}) => {
+  const reviews = useSelector(selectReviewsByRestaurantId(restaurantId));
 
   const [requestId, setRequestId] = useState<string | null>(null);
   const isLoading = useSelector(
-    (state: RootState) => isReviewWithIdsNotExist && requestId && selectIsLoading(state, requestId)
+    (state: RootState) => requestId && selectIsLoading(state, requestId)
   ) ?? true;
   const dispatch: ThunkDispatch<Review, void, UnknownAction> = useDispatch();
 
-  console.log(reviewWithIds);
-
   useEffect(() => {
-    if (isReviewWithIdsNotExist) {
-      setRequestId(dispatch(getReviews()).requestId)
-    }
-  }, [dispatch])
+    setRequestId(dispatch(getReviewsByRestaurantId(restaurantId)).requestId)
+  }, [restaurantId, dispatch])
 
   return (
     <div>
@@ -37,8 +32,8 @@ const ReviewItem: FunctionComponent<Props> = ({reviewIds}) => {
         ) : (
           <>
             <ul className={styles.reviewList}>
-              {reviewIds.map((id) => (
-                <li key={id} className={styles.reviewItem}>{reviewWithIds[id].text}</li>
+              {reviews.map((review) => (
+                <li key={review.id} className={styles.reviewItem}>{review.text}</li>
               ))}
             </ul>
           </>)}

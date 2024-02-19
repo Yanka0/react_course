@@ -22,7 +22,7 @@ const RestaurantItem: FunctionComponent<Props> = ({restaurantId}) => {
         <h3>Menu</h3>
         <MenuItemContainer menuIds= {restaurant.menu}/>
         <h3>Reviews</h3>
-        <ReviewItem reviewIds={restaurant.reviews}/>
+        <ReviewItem restaurantId={restaurantId}/>
       </div>
       {user && <Form/>}
     </div>)
