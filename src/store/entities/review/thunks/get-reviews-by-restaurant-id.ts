@@ -1,15 +1,14 @@
-import {AsyncThunkAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {selectReviewsByRestaurantId} from "../selector.tsx";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import {
   AsyncThunkConfig, AsyncThunkFulfilledActionCreator,
   AsyncThunkPendingActionCreator,
-  AsyncThunkRejectedActionCreator
+  AsyncThunkRejectedActionCreator,
+  AsyncThunkAction
 } from "@reduxjs/toolkit/dist/createAsyncThunk";
+import {RootState} from "../../../index.tsx";
+import {selectRestaurantReviewIds} from "../../restaurant/selector.tsx";
+import {selectReviewsIds} from "../selector.tsx";
 
-export type RestaurantReviews = {
-  id: string
-  reviews : Review[]
-}
 
 export type Review = {
   id: string,
@@ -18,21 +17,23 @@ export type Review = {
   rating: number
 }
 
-export const getReviewsByRestaurantId: ((arg: string) => AsyncThunkAction<RestaurantReviews, string, AsyncThunkConfig>) & {
+export const getReviewsByRestaurantId : ((arg: string) => AsyncThunkAction<Review[], string, AsyncThunkConfig>) & {
   pending: AsyncThunkPendingActionCreator<string, AsyncThunkConfig>;
   rejected: AsyncThunkRejectedActionCreator<string, AsyncThunkConfig>;
-  fulfilled: AsyncThunkFulfilledActionCreator<RestaurantReviews, string, AsyncThunkConfig>;
-  settled: (action: any) => action is ReturnType<AsyncThunkRejectedActionCreator<string, AsyncThunkConfig> | AsyncThunkFulfilledActionCreator<RestaurantReviews, string, AsyncThunkConfig>>;
+  fulfilled: AsyncThunkFulfilledActionCreator<Review[], string, AsyncThunkConfig>;
+  settled: (action: any) => action is ReturnType<AsyncThunkRejectedActionCreator<string, AsyncThunkConfig> | AsyncThunkFulfilledActionCreator<Review[], string, AsyncThunkConfig>>;
   typePrefix: string
-} = createAsyncThunk<RestaurantReviews, string>(
+}  = createAsyncThunk<Review[], string, {state: RootState}>(
   'restaurant/getReviewByRestaurantId',
   async (restaurantId)=> {
     const response = await fetch (`http://localhost:3001/api/reviews?restaurantId=${restaurantId}`);
     const reviews : Review[] = await response.json()
-    return {id: restaurantId, reviews: reviews};
+    return reviews;
   },
   {
     condition: (restaurantId, {getState}) => {
-      return !selectReviewsByRestaurantId(restaurantId)(getState())
-    }
-  });
+      const restaurantReviewsIds = selectRestaurantReviewIds(restaurantId)(getState())
+      const reviewsIds = selectReviewsIds(getState());
+      return !restaurantReviewsIds.every((id) => reviewsIds.includes(id));
+    }}
+  );

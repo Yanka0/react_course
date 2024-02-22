@@ -1,6 +1,6 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {getReviewsByRestaurantId, RestaurantReviews} from "./thunks/get-reviews-by-restaurant-id.ts";
-const entityAdapter = createEntityAdapter<RestaurantReviews>()
+import {getReviewsByRestaurantId, Review} from "./thunks/get-reviews-by-restaurant-id.ts";
+const entityAdapter = createEntityAdapter<Review>()
 
 export const reviewSlice = createSlice({
   name: 'review',
@@ -9,7 +9,7 @@ export const reviewSlice = createSlice({
   extraReducers: (builder) =>
     builder.addCase(
       getReviewsByRestaurantId.fulfilled, (state, action) => {
-        entityAdapter.setOne(state, action.payload)
+        entityAdapter.setMany(state, action.payload)
       })
 });
 export default reviewSlice.reducer;

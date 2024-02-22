@@ -1,10 +1,10 @@
 import {AsyncThunkAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {selectDishMenuById} from "../selector.tsx";
 import {
   AsyncThunkConfig, AsyncThunkFulfilledActionCreator,
   AsyncThunkPendingActionCreator,
   AsyncThunkRejectedActionCreator
 } from "@reduxjs/toolkit/dist/createAsyncThunk";
+import {selectRestaurantMenuById} from "../../restaurant/selector.tsx";
 
 export type DishMenu = {
   id: string,
@@ -21,13 +21,15 @@ export const getDishById: ((arg: string) => AsyncThunkAction<DishMenu, string, A
   typePrefix: string
 } = createAsyncThunk<DishMenu, string>(
   'restaurant/getDishById',
-  async (dishId) => {
-    const response  = await fetch(`http://localhost:3001/api/dish/${dishId}`);
+  async (restaurantId) => {
+    const response  = await fetch(`http://localhost:3001/api/dishes?restaurantId=${restaurantId}`);
     return await response.json();
   },
   {
-    condition: (dishId, {getState}) => {
-      return !selectDishMenuById(dishId)(getState());
+    condition: (restaurantId, {getState}) => {
+      const restaurantDishIds = selectRestaurantMenuById(restaurantId)(getState())
+      const dishesIds = selectDishMenuIds(getState());
+      return !restaurantDishIds.every((id) => dishesIds.includes(id));
     }
-  }
+   }
   );

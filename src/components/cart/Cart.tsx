@@ -1,5 +1,5 @@
 import  { FunctionComponent } from 'react';
-import MenuItem from "../restaurant/menuItem/MenuItem.tsx";
+import MenuItem from "../restaurant/menuItem/MenuItemContainer.tsx";
 
 
 type Props = {

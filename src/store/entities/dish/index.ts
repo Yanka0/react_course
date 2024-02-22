@@ -10,7 +10,7 @@ export const dishMenuSlice = createSlice({
   extraReducers: (builder) =>
     builder.addCase(
       getDishById.fulfilled, (state, action) => {
-        entityAdapter.setOne(state, action.payload)
+        entityAdapter.setMany(state, action.payload)
       })
 });
 export default dishMenuSlice.reducer;
