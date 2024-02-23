@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 interface CartState {
-  [menuId: string]: number;
+  [menuId: string]: {amount: number, name: string};
 }
 
 
@@ -10,26 +10,28 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart(state, {payload: menuId}) {
-      state[menuId] = Math.min((state[menuId] || 0) + 1, 5);
+    addToCart(state, {payload: {id, name}}) {
+      const amount = Math.min((state[id]?.amount || 0) + 1, 5);
+      state[id] = {amount, name};
     },
-    removeFromCart(state, {payload: menuId}) {
-      state[menuId] = Math.max((state[menuId] || 0) - 1, 0);
-      if(state[menuId] <= 0) {
-        delete state[menuId]
+    removeFromCart(state, {payload: id}) {
+      state[id].amount = Math.max((state[id]?.amount || 0) - 1, 0);
+      if(state[id]?.amount <= 0) {
+        delete state[id]
       }
     },
   },
   selectors:{
-    selectDishAmountById: (state, menuId) => state[menuId] || 0,
+    selectDishAmountById: (state, menuId) => state[menuId]?.amount || 0,
     selectDishAmount: (state) =>
-      Object.values(state).reduce((acc, amount) => {
+      Object.values(state).reduce((acc, {amount}) => {
         return acc + amount;
       }, 0),
-    selectCartProductIds: (state) => Object.keys(state),
+    selectCartProductIdsWithNames: (state) =>
+      Object.entries(state).map(([menuId, { name }]) => ({ menuId, name })),
   }
 })
 export const {selectDishAmountById,
   selectDishAmount,
-  selectCartProductIds} = cartSlice.selectors
+  selectCartProductIdsWithNames} = cartSlice.selectors
 export const { addToCart, removeFromCart} = cartSlice.actions

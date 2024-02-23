@@ -1,17 +1,23 @@
-import  { FunctionComponent } from 'react';
-import MenuItem from "../restaurant/menuItem/MenuItemContainer.tsx";
+import {FunctionComponent} from 'react';
+import DishMenuItem from "../restaurant/menuItem/DishMenuItem.tsx";
+import {selectCartProductIdsWithNames} from "../../store/ui/cart";
+import {useSelector} from "react-redux";
 
+type Props = {};
 
-type Props = {
-  menuIds: string[]
-};
+const Cart: FunctionComponent<Props> = () => {
+  const menuIdsWithNames = useSelector(selectCartProductIdsWithNames)
 
-const Cart: FunctionComponent<Props> = ({menuIds}) => {
-
-  return (<div>
-    {menuIds?.length? menuIds.map(menuId => <MenuItem menuId={menuId}/>):
-    'Empty'}
-  </div>);
+  return (
+    <div>
+      {menuIdsWithNames?.length ?
+        menuIdsWithNames.map(menuIdWithName =>
+          <DishMenuItem id={menuIdWithName.menuId} name={menuIdWithName.name}/>
+        )
+        :
+        'Empty'
+      }
+    </div>);
 };
 
 export default Cart;
