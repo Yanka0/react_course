@@ -9,9 +9,10 @@ type Props = {
   onChange: React.ChangeEventHandler<HTMLInputElement>
   label: string
   className: string
+  disabled?: boolean
 };
 
-const Input: FunctionComponent<Props> = ({htmlFor, id, type, value, onChange, label, className}) => {
+const Input: FunctionComponent<Props> = ({htmlFor, id, type, value, onChange, label, className, disabled}) => {
 
   return (
     <div className={styles.container}>
@@ -20,7 +21,9 @@ const Input: FunctionComponent<Props> = ({htmlFor, id, type, value, onChange, la
              type={type}
              value={value}
              onChange={onChange}
-             className={className}/>
+             className={className}
+             disabled={disabled}
+      />
     </div>
   );
 };

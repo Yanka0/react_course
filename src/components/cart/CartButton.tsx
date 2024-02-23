@@ -1,12 +1,12 @@
-import  {FunctionComponent, useState} from 'react';
+import {FunctionComponent, useState} from 'react';
 import {createPortal} from "react-dom";
 import Button from "../../utils/button/Button.tsx";
-import CartContainer from "./CartContainer.tsx";
 import styles from './cart.module.scss'
+import Cart from "./Cart.tsx";
 
 
 type Props = {
-  amount:number
+  amount: number
 };
 
 const CartButton: FunctionComponent<Props> = ({amount}) => {
@@ -15,12 +15,12 @@ const CartButton: FunctionComponent<Props> = ({amount}) => {
   return (
     <div>
       <Button className={styles.cartBtn} children={amount} onClick={() => setIsVisible(!isVisible)}/>
-        { isVisible &&
+      {isVisible &&
         createPortal(
-      <div>
-        <CartContainer/>
-      </div>
-      , modal)}
+          <div>
+            <Cart/>
+          </div>
+          , modal)}
     </div>
   )
 };

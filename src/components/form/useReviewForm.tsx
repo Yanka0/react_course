@@ -4,7 +4,7 @@ import {ChangeEvent, useReducer} from "react";
 type FormState = {
   name: string,
   text: string,
-  rating: string
+  rating: number
 }
 type FormAction = {
   type: string,
@@ -14,7 +14,7 @@ const reducer = (state: FormState, {type, payload}: FormAction): FormState => {
   switch (type) {
     case 'setName':
       return {
-        ...initialValue,
+        ...defaultInitialValue,
         name: payload
       }
     case 'setText':
@@ -25,20 +25,20 @@ const reducer = (state: FormState, {type, payload}: FormAction): FormState => {
     case 'setRating':
       return {
         ...state,
-        rating: payload
+        rating: Number(payload)
       }
     default:
       return state
   }
 }
 
-const initialValue: FormState = {
+const defaultInitialValue: FormState = {
   name: '',
   text: '',
-  rating: ''
+  rating: 0
 }
-const useReviewForm = () => {
-  const [form, dispatch] = useReducer(reducer, initialValue)
+const useReviewForm = (initialValue?: FormState) => {
+  const [form, dispatch] = useReducer(reducer, initialValue ?? defaultInitialValue)
   return {
     form,
     setName: (e: ChangeEvent<HTMLInputElement>) => dispatch({type: 'setName', payload: e.target.value}),

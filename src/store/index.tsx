@@ -5,12 +5,20 @@ import {reviewSlice} from "./entities/review";
 import {userSlice} from "./entities/user";
 import {requestSlice} from "./ui/request";
 import {cartSlice} from "./ui/cart";
+import {api} from "./services/api.ts";
 
 export const store = configureStore({
-  reducer: combineSlices(restaurantSlice,dishMenuSlice,reviewSlice,userSlice,requestSlice,cartSlice),
+  reducer: combineSlices(
+    restaurantSlice,
+    dishMenuSlice,
+    reviewSlice,
+    userSlice,
+    requestSlice,
+    cartSlice,
+    api
+  ),
+  middleware:(getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
-
-console.log(store.getState())

@@ -12,7 +12,8 @@ import {selectReviewsIds} from "../selector.tsx";
 
 export type Review = {
   id: string,
-  userId: string,
+  userId?: string,
+  name?: string,
   text: string,
   rating: number
 }

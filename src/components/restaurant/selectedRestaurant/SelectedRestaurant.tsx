@@ -8,17 +8,17 @@ type Props = {
 
 const SelectedRestaurant: FunctionComponent<Props> = ({restaurantIdToRender}) => {
 
-  return (<div>
-    <div className={styles.restaurant_list}>{
-      restaurantIdToRender ? (
-          <RestaurantItem restaurantId={restaurantIdToRender}/>
-        )
-        : (
-          <p>Choose restaurant</p>
-        )}
-    </div>
-
-  </div>);
+  return (
+    <div>
+      <div className={styles.restaurant_list}>{
+        restaurantIdToRender ? (
+            <RestaurantItem restaurantId={restaurantIdToRender}/>
+          )
+          : (
+            <p>Choose restaurant</p>
+          )}
+      </div>
+    </div>);
 };
 
 export default SelectedRestaurant;
