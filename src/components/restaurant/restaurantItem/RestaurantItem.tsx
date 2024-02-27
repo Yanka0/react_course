@@ -1,29 +1,35 @@
 import {FunctionComponent} from 'react';
-import MenuItem from "../menuItem/MenuItem.tsx";
-import ReviewItem from "../reviewItem/ReviewItem.tsx";
 import styles from './restaurantItem.module.scss'
 import Form from "../../form/Form.tsx";
 import {useAuth} from "../../../contexts/Auth.tsx";
-import {useSelector} from "react-redux";
-import {selectRestaurantById} from "../../../store/entities/restaurant/selector.tsx";
+import {useGetRestaurantsQuery} from "../../../store/services/api.ts";
+import {Outlet, useParams} from "react-router-dom";
+import RestaurantItemTabs from "../../../restaurantItemTabs/RestaurantItemTabs.tsx";
 
 type Props = {
-  restaurantId: string;
 }
 
-const RestaurantItem: FunctionComponent<Props> = ({restaurantId}) => {
+const RestaurantItem: FunctionComponent<Props> = () => {
   const {user} = useAuth();
-  const restaurant = useSelector(selectRestaurantById(restaurantId))
+  const {restaurantId} = useParams()
+  const {data:restaurant} = useGetRestaurantsQuery(undefined,{
+    selectFromResult :(result) => ({
+      ...result,
+      data: result?.data?.find(({id}) => restaurantId === id)
+    })
+  });
+  if (!restaurant || !restaurantId){
+    return null
+  }
+
   return (
     <div key={restaurantId}>
       <div className={styles.restaurant_item}>
         <h2>{restaurant.name}</h2>
-        <h3>Menu</h3>
-        <MenuItem menuIds= {restaurant.menu}/>
-        <h3>Reviews</h3>
-        <ReviewItem reviewIds={restaurant.reviews}/>
+        <RestaurantItemTabs/>
+        <Outlet/>
       </div>
-      {user && <Form/>}
+      {user && <Form restaurantId={restaurantId}/>}
     </div>)
 };
 

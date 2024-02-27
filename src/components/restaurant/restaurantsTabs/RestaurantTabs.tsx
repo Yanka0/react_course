@@ -1,27 +1,28 @@
 import {FunctionComponent} from 'react';
 import styles from "./restaurantTabs.module.scss";
 import Button from "../../../utils/button/Button.tsx";
-import {useSelector} from "react-redux";
-import {
-  selectRestaurantIds,
-  selectRestaurantsWithIds
-} from "../../../store/entities/restaurant/selector.tsx";
+import {useGetRestaurantsQuery} from "../../../store/services/api.ts";
+import {NavLink} from "react-router-dom";
 
 type Props = {
-  onClick: (restaurantIdToRender: string) => void;
 };
 
-const RestaurantTabs: FunctionComponent<Props> = ({onClick}) => {
-  const restaurantIds = useSelector(selectRestaurantIds);
-  const restaurantsWithIds = useSelector(selectRestaurantsWithIds);
+const RestaurantTabs: FunctionComponent<Props> = () => {
+  const {data:restaurants} = useGetRestaurantsQuery();
+  if (!restaurants) {
+    return null;
+  }
 
   return (
     <div className={styles.btnContainer}>
-      {restaurantIds.map((restaurantId) => (
-        <Button key={restaurantId} onClick={() => onClick(restaurantId)} className={styles.restBtn}>
-          {restaurantsWithIds[restaurantId].name}
-        </Button>
+      {restaurants.map(({name, id}: { name: string, id: string }) => (
+       <NavLink to={`/restaurants/${id}`}>
+         { ({isActive}) => <Button key={id}  className={styles.restBtn} isDisabled={isActive}>
+          {name}
+        </Button>}
+       </NavLink>
       ))}
+
     </div>);
 };
 
