@@ -3,23 +3,22 @@ import styles from './restaurantItem.module.scss'
 import Form from "../../form/Form.tsx";
 import {useAuth} from "../../../contexts/Auth.tsx";
 import {useGetRestaurantsQuery} from "../../../store/services/api.ts";
-import DishMenuList from "../menuItem/DishMenuList.tsx";
-import Reviews from "../reviews/Reviews.tsx";
+import {Outlet, useParams} from "react-router-dom";
+import RestaurantItemTabs from "../../../restaurantItemTabs/RestaurantItemTabs.tsx";
 
 type Props = {
-  restaurantId: string;
 }
 
-const RestaurantItem: FunctionComponent<Props> = ({restaurantId}) => {
+const RestaurantItem: FunctionComponent<Props> = () => {
   const {user} = useAuth();
-
+  const {restaurantId} = useParams()
   const {data:restaurant} = useGetRestaurantsQuery(undefined,{
     selectFromResult :(result) => ({
       ...result,
       data: result?.data?.find(({id}) => restaurantId === id)
     })
   });
-  if (!restaurant){
+  if (!restaurant || !restaurantId){
     return null
   }
 
@@ -27,10 +26,8 @@ const RestaurantItem: FunctionComponent<Props> = ({restaurantId}) => {
     <div key={restaurantId}>
       <div className={styles.restaurant_item}>
         <h2>{restaurant.name}</h2>
-        <h3>Menu</h3>
-        <DishMenuList restaurantId= {restaurant.id}/>
-        <h3>Reviews</h3>
-        <Reviews restaurantId={restaurant.id}/>
+        <RestaurantItemTabs/>
+        <Outlet/>
       </div>
       {user && <Form restaurantId={restaurantId}/>}
     </div>)

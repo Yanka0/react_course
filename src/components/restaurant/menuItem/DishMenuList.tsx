@@ -3,17 +3,20 @@ import {
   useGetDishesByRestaurantIdQuery,
 } from "../../../store/services/api.ts";
 import DishMenuItem from "./DishMenuItem.tsx";
+import {useParams} from "react-router-dom";
+import {isIdExist} from "../../../utils/functions.ts";
 
 type Props = {
-  restaurantId: string,
-}
-const DishMenuList: FunctionComponent<Props> = ({restaurantId}) => {
 
+}
+const DishMenuList: FunctionComponent<Props> = () => {
+  const {restaurantId} = useParams()
+  isIdExist(restaurantId)
   const {data: dishes, isLoading} = useGetDishesByRestaurantIdQuery(restaurantId)
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  if (!dishes) {
+  if (!dishes || !restaurantId) {
     return null;
   }
 

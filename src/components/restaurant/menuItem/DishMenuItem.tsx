@@ -4,6 +4,7 @@ import {addToCart, removeFromCart, selectDishAmountById} from "../../../store/ui
 import Button from "../../../utils/button/Button.tsx";
 import styles from './menuItem.module.scss'
 import {RootState} from "../../../store";
+import {NavLink} from "react-router-dom";
 
 type Props = {
   id: string;
@@ -19,7 +20,7 @@ const DishMenuItem: FunctionComponent<Props> = ({ id, name}) => {
   return (
     <div>
       <div className={styles.menuBtns}>
-        <li className={styles.menuList}>{name}</li>
+        <NavLink to={`/dish/${id}`} className={styles.menuList}>{name}</NavLink>
         <div>
           <Button children={'+'} onClick={() => dispatch(addToCart({id, name}))} className={styles.menuBtn}/>
           {amount}

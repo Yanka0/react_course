@@ -4,12 +4,15 @@ import {useGetReviewsByRestaurantIdQuery} from "../../../store/services/api.ts";
 import Form from "../../form/Form.tsx";
 import Button from "../../../utils/button/Button.tsx";
 import {useAuth} from "../../../contexts/Auth.tsx";
+import {useParams} from "react-router-dom";
+import {isIdExist} from "../../../utils/functions.ts";
 
 type Props = {
-  restaurantId: string;
 };
 
-const Reviews: FunctionComponent<Props> = ({restaurantId}) => {
+const Reviews: FunctionComponent<Props> = () => {
+  const {restaurantId} = useParams()
+  isIdExist(restaurantId)
   const {data: reviews, isLoading} = useGetReviewsByRestaurantIdQuery(restaurantId)
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
   const {user} = useAuth()
@@ -19,7 +22,7 @@ const Reviews: FunctionComponent<Props> = ({restaurantId}) => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  if (!reviews) {
+  if (!reviews || !restaurantId) {
     return null;
   }
 

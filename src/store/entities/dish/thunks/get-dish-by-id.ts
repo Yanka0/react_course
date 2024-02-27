@@ -5,6 +5,7 @@ import {
   AsyncThunkRejectedActionCreator
 } from "@reduxjs/toolkit/dist/createAsyncThunk";
 import {selectRestaurantMenuById} from "../../restaurant/selector.tsx";
+import {selectDishMenuIds} from "../selector.tsx";
 
 export type DishMenu = {
   id: string,
